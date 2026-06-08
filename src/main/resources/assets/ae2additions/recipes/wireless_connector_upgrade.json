@@ -1,0 +1,26 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "ABA",
+    "CDC",
+    "ABA"
+  ],
+  "key": {
+    "A": {
+      "type": "forge:ore_dict",
+      "ore": "crystalFluix"
+    },
+    "B": {
+      "item": "ae2:energy_card"
+    },
+    "C": {
+      "item": "ae2:wireless_receiver"
+    },
+    "D": {
+      "item": "ae2:engineering_processor"
+    }
+  },
+  "result": {
+    "item": "ae2additions:wireless_connector_upgrade"
+  }
+}

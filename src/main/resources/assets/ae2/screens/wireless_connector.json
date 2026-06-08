@@ -1,0 +1,38 @@
+{
+  "$schema": "schema.json",
+  "includes": ["common/common.json", "common/player_inventory.json", "common/toolbox.json"],
+  "background": {
+    "texture": "guis/wireless_connector.png",
+    "srcRect": [0, 0, 176, 253]
+  },
+  "widgets": {
+    "upgrades": {
+      "left": 176,
+      "top": 0,
+      "height": 90
+    },
+    "statusIcon": {
+      "left": 152,
+      "top": 5,
+      "width": 16,
+      "height": 16
+    },
+    "highlight": {
+      "left": 152,
+      "top": 27,
+      "width": 16,
+      "height": 16
+    }
+  },
+  "text": {
+    "dialog_title": {
+      "text": {
+        "translate": "gui.ae2additions.wireless_connector"
+      },
+      "position": {
+        "left": 8,
+        "top": 6
+      }
+    }
+  }
+}

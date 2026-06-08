@@ -1,0 +1,26 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    " A ",
+    "BCB",
+    " D "
+  ],
+  "key": {
+    "A": {
+      "item": "ae2:wireless_receiver"
+    },
+    "B": {
+      "type": "forge:ore_dict",
+      "ore": "crystalFluix"
+    },
+    "C": {
+      "item": "ae2:engineering_processor"
+    },
+    "D": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "ae2additions:wireless_tool"
+  }
+}

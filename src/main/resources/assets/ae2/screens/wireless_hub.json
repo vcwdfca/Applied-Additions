@@ -1,0 +1,122 @@
+{
+  "$schema": "schema.json",
+  "includes": ["common/common.json", "common/player_inventory.json", "common/toolbox.json"],
+  "background": {
+    "texture": "guis/wireless_hub.png",
+    "srcRect": [0, 0, 176, 253]
+  },
+  "widgets": {
+    "upgrades": {
+      "left": 176,
+      "top": 0,
+      "height": 90
+    },
+    "highlight0": {
+      "left": 19,
+      "top": 42,
+      "width": 16,
+      "height": 16
+    },
+    "disconnect0": {
+      "left": 55,
+      "top": 42,
+      "width": 16,
+      "height": 16
+    },
+    "highlight1": {
+      "left": 19,
+      "top": 70,
+      "width": 16,
+      "height": 16
+    },
+    "disconnect1": {
+      "left": 55,
+      "top": 70,
+      "width": 16,
+      "height": 16
+    },
+    "highlight2": {
+      "left": 19,
+      "top": 98,
+      "width": 16,
+      "height": 16
+    },
+    "disconnect2": {
+      "left": 55,
+      "top": 98,
+      "width": 16,
+      "height": 16
+    },
+    "highlight3": {
+      "left": 19,
+      "top": 126,
+      "width": 16,
+      "height": 16
+    },
+    "disconnect3": {
+      "left": 55,
+      "top": 126,
+      "width": 16,
+      "height": 16
+    },
+    "highlight4": {
+      "left": 102,
+      "top": 42,
+      "width": 16,
+      "height": 16
+    },
+    "disconnect4": {
+      "left": 138,
+      "top": 42,
+      "width": 16,
+      "height": 16
+    },
+    "highlight5": {
+      "left": 102,
+      "top": 70,
+      "width": 16,
+      "height": 16
+    },
+    "disconnect5": {
+      "left": 138,
+      "top": 70,
+      "width": 16,
+      "height": 16
+    },
+    "highlight6": {
+      "left": 102,
+      "top": 98,
+      "width": 16,
+      "height": 16
+    },
+    "disconnect6": {
+      "left": 138,
+      "top": 98,
+      "width": 16,
+      "height": 16
+    },
+    "highlight7": {
+      "left": 102,
+      "top": 126,
+      "width": 16,
+      "height": 16
+    },
+    "disconnect7": {
+      "left": 138,
+      "top": 126,
+      "width": 16,
+      "height": 16
+    }
+  },
+  "text": {
+    "dialog_title": {
+      "text": {
+        "translate": "gui.ae2additions.wireless_hub"
+      },
+      "position": {
+        "left": 8,
+        "top": 6
+      }
+    }
+  }
+}

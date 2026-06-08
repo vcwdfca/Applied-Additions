@@ -1,0 +1,28 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "ABA",
+    "CDC",
+    "AEA"
+  ],
+  "key": {
+    "A": {
+      "item": "ae2:energy_card"
+    },
+    "B": {
+      "item": "ae2:wireless_receiver"
+    },
+    "C": {
+      "item": "ae2:fluix_glass_cable"
+    },
+    "D": {
+      "item": "ae2additions:wireless_connect"
+    },
+    "E": {
+      "item": "ae2:engineering_processor"
+    }
+  },
+  "result": {
+    "item": "ae2additions:wireless_hub"
+  }
+}
