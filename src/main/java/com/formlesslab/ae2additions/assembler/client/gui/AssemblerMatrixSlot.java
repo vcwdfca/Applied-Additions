@@ -3,7 +3,6 @@ package com.formlesslab.ae2additions.assembler.client.gui;
 import ae2.api.inventories.InternalInventory;
 import ae2.container.slot.AppEngSlot;
 import ae2.crafting.pattern.EncodedPatternItem;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -41,26 +40,12 @@ public class AssemblerMatrixSlot extends AppEngSlot {
 
     @Override
     public boolean isItemValid(ItemStack stack) {
-        return false;
-    }
-
-    @Override
-    public void putStack(ItemStack stack) {
+        return super.isItemValid(stack);
     }
 
     @Override
     public int getSlotStackLimit() {
-        return 0;
-    }
-
-    @Override
-    public ItemStack decrStackSize(int amount) {
-        return ItemStack.EMPTY;
-    }
-
-    @Override
-    public boolean canTakeStack(EntityPlayer player) {
-        return false;
+        return super.getSlotStackLimit();
     }
 
     private static World getDisplayWorld() {

@@ -20,6 +20,7 @@ import ae2.util.inv.CombinedInternalInventory;
 import com.formlesslab.ae2additions.assembler.block.BlockAssemblerMatrixBase;
 import com.formlesslab.ae2additions.assembler.me.CalculatorAssemblerMatrix;
 import com.formlesslab.ae2additions.assembler.me.ClusterAssemblerMatrix;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
@@ -46,6 +47,8 @@ public abstract class TileAssemblerMatrixBase extends AENetworkedTile
     protected NBTTagCompound previousState;
     protected ClusterAssemblerMatrix cluster;
     private boolean applyingClusterConfig;
+    private boolean clientFormed;
+    private boolean clientPowered;
 
     public TileAssemblerMatrixBase() {
         this.getMainNode()
@@ -114,8 +117,7 @@ public abstract class TileAssemblerMatrixBase extends AENetworkedTile
 
     public boolean isFormed() {
         if (isClientSide()) {
-            IBlockState state = this.world.getBlockState(this.pos);
-            return state.getBlock() instanceof BlockAssemblerMatrixBase && state.getValue(BlockAssemblerMatrixBase.FORMED);
+            return this.clientFormed;
         }
         return this.cluster != null;
     }
@@ -159,9 +161,7 @@ public abstract class TileAssemblerMatrixBase extends AENetworkedTile
 
     @Override
     public void onMainNodeStateChanged(IGridNodeListener.State reason) {
-        if (reason != IGridNodeListener.State.GRID_BOOT) {
-            this.updateSubType(false);
-        }
+        this.updateSubType(false);
     }
 
     @Override
@@ -215,7 +215,7 @@ public abstract class TileAssemblerMatrixBase extends AENetworkedTile
         }
 
         boolean formed = this.isFormed();
-        boolean power = formed && this.getMainNode().isOnline();
+        boolean power = formed && this.getMainNode().isPowered();
         IBlockState current = this.world.getBlockState(this.pos);
 
         if (current.getBlock() instanceof BlockAssemblerMatrixBase) {
@@ -223,7 +223,8 @@ public abstract class TileAssemblerMatrixBase extends AENetworkedTile
                 .withProperty(BlockAssemblerMatrixBase.POWERED, power)
                 .withProperty(BlockAssemblerMatrixBase.FORMED, formed);
             if (!current.equals(newState)) {
-                this.world.setBlockState(this.pos, newState, 2);
+                this.world.setBlockState(this.pos, newState, 3);
+                this.world.notifyBlockUpdate(this.pos, current, newState, 3);
             }
         }
 
@@ -236,10 +237,53 @@ public abstract class TileAssemblerMatrixBase extends AENetworkedTile
     @Override
     public boolean isPowered() {
         if (isClientSide()) {
-            IBlockState state = this.world.getBlockState(this.pos);
-            return state.getBlock() instanceof BlockAssemblerMatrixBase && state.getValue(BlockAssemblerMatrixBase.POWERED);
+            return this.clientPowered;
         }
-        return this.getMainNode().isActive();
+        return this.isFormed() && this.getMainNode().isPowered();
+    }
+
+    @Override
+    protected void writeToStream(ByteBuf data) {
+        super.writeToStream(data);
+        data.writeBoolean(this.isFormed());
+        data.writeBoolean(this.isPowered());
+    }
+
+    @Override
+    protected boolean readFromStream(ByteBuf data) {
+        boolean changed = super.readFromStream(data);
+        boolean formed = data.readBoolean();
+        boolean powered = data.readBoolean();
+
+        if (formed != this.clientFormed || powered != this.clientPowered) {
+            this.clientFormed = formed;
+            this.clientPowered = powered;
+            changed = true;
+        }
+
+        return changed;
+    }
+
+    @Override
+    protected void saveVisualState(NBTTagCompound data) {
+        super.saveVisualState(data);
+        data.setBoolean("formed", this.isFormed());
+        data.setBoolean("powered", this.isPowered());
+    }
+
+    @Override
+    protected void loadVisualState(NBTTagCompound data) {
+        super.loadVisualState(data);
+        this.clientFormed = data.getBoolean("formed");
+        this.clientPowered = data.getBoolean("powered");
+    }
+
+    @Override
+    protected void onVisualStateUpdated() {
+        super.onVisualStateUpdated();
+        if (this.world != null) {
+            this.world.markBlockRangeForRenderUpdate(this.pos.add(-1, -1, -1), this.pos.add(1, 1, 1));
+        }
     }
 
     @Override

@@ -84,8 +84,8 @@ public abstract class BlockAssemblerMatrixBase<M extends TileAssemblerMatrixBase
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player,
                                     EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         M tile = this.getTileEntity(world, pos);
-        if (tile != null && tile.isFormed() && tile.isActive() && !player.isSneaking()
-            && this.openAssemblerMatrixGui(tile, world, pos, player)) {
+        if (tile != null && tile.isFormed() && !player.isSneaking()
+            && this.openAssemblerMatrixGui(world, pos, player)) {
             return true;
         }
         return super.onBlockActivated(world, pos, state, player, hand, side, hitX, hitY, hitZ);
@@ -95,10 +95,9 @@ public abstract class BlockAssemblerMatrixBase<M extends TileAssemblerMatrixBase
         return Item.getItemFromBlock(this);
     }
 
-    protected boolean openAssemblerMatrixGui(M tile, World world, BlockPos pos, EntityPlayer player) {
+    protected boolean openAssemblerMatrixGui(World world, BlockPos pos, EntityPlayer player) {
         if (!world.isRemote) {
-            player.openGui(AppliedAdditions.INSTANCE, ModGuiHandler.ASSEMBLER_MATRIX, world,
-                pos.getX(), pos.getY(), pos.getZ());
+            player.openGui(AppliedAdditions.INSTANCE, ModGuiHandler.ASSEMBLER_MATRIX, world, pos.getX(), pos.getY(), pos.getZ());
         }
         return true;
     }

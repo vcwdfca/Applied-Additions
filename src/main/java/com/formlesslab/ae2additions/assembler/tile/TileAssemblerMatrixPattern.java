@@ -181,6 +181,11 @@ public class TileAssemblerMatrixPattern extends TileAssemblerMatrixFunction
     }
 
     @Override
+    public boolean isAssemblerPatternContainer() {
+        return true;
+    }
+
+    @Override
     public boolean containsPattern(AEItemKey pattern) {
         return this.patternKeys.contains(pattern);
     }

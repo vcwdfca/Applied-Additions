@@ -19,7 +19,6 @@ import ae2.crafting.pattern.EncodedPatternItem;
 import ae2.helpers.InventoryAction;
 import ae2.util.inv.AppEngInternalInventory;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ClickType;
@@ -180,14 +179,13 @@ public class GuiAssemblerMatrix<T extends AEBaseContainer & AssemblerMatrixMenu>
 
     @Override
     protected void handleMouseClick(Slot slot, int slotId, int mouseButton, ClickType clickType) {
-        if (slot instanceof AssemblerMatrixSlot) {
+        if (slot instanceof AssemblerMatrixSlot machineSlot) {
             InventoryAction action = getAction(mouseButton, clickType);
             if (action != null) {
-                AssemblerMatrixSlot machineSlot = (AssemblerMatrixSlot) slot;
                 InitNetwork.sendToServer(new InventoryActionPacket(
                     this.container.windowId,
                     action,
-                    machineSlot.getActualSlot(),
+                    -machineSlot.getActualSlot() - 1,
                     machineSlot.getPatternId()));
             }
             return;
@@ -196,6 +194,12 @@ public class GuiAssemblerMatrix<T extends AEBaseContainer & AssemblerMatrixMenu>
     }
 
     public void receiveUpdate(long patternId, Int2ObjectMap<ItemStack> updateMap) {
+        if (updateMap.isEmpty()) {
+            this.infos.remove(patternId);
+            this.refreshList();
+            return;
+        }
+
         PatternInfo info = this.infos.computeIfAbsent(patternId, PatternInfo::new);
         for (Int2ObjectMap.Entry<ItemStack> entry : updateMap.int2ObjectEntrySet()) {
             info.getRowBySlot(entry.getIntKey()).setItemByInvSlot(entry.getIntKey(), entry.getValue());
@@ -333,18 +337,12 @@ public class GuiAssemblerMatrix<T extends AEBaseContainer & AssemblerMatrixMenu>
     }
 
     private InventoryAction getAction(int mouseButton, ClickType clickType) {
-        switch (clickType) {
-            case PICKUP:
-                return mouseButton == 1 ? InventoryAction.SPLIT_OR_PLACE_SINGLE : InventoryAction.PICKUP_OR_SET_DOWN;
-            case QUICK_MOVE:
-                return mouseButton == 1 ? InventoryAction.PICKUP_SINGLE : InventoryAction.SHIFT_CLICK;
-            case CLONE:
-                return this.mc.player != null && this.mc.player.capabilities.isCreativeMode
-                    ? InventoryAction.CREATIVE_DUPLICATE
-                    : null;
-            default:
-                return null;
-        }
+        return switch (clickType) {
+            case PICKUP -> mouseButton == 1 ? InventoryAction.SPLIT_OR_PLACE_SINGLE : InventoryAction.PICKUP_OR_SET_DOWN;
+            case QUICK_MOVE -> mouseButton == 1 ? InventoryAction.PICKUP_SINGLE : InventoryAction.SHIFT_CLICK;
+            case CLONE -> this.mc.player != null && this.mc.player.capabilities.isCreativeMode ? InventoryAction.CREATIVE_DUPLICATE : null;
+            default -> null;
+        };
     }
 
     private static List<String> tokenize(String value) {
