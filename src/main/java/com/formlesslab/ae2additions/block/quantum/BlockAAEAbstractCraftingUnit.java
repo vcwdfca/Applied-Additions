@@ -2,7 +2,7 @@ package com.formlesslab.ae2additions.block.quantum;
 
 import ae2.block.AEBaseTileBlock;
 import ae2.block.crafting.ICraftingUnitType;
-import ae2.client.render.crafting.CraftingCubeState;
+import ae2.helpers.crafting.CraftingCubeState;
 import com.formlesslab.ae2additions.tile.TileAdvCraftingBlock;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectList;

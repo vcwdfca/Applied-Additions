@@ -60,8 +60,8 @@ dependencies {
     //     transitive = false
     // }
 
-    modImplementation name: 'AppliedEnergistics2-Supergiant', version: '0.0.0', classifier: 'dev'
+    modImplementation name: 'AppliedEnergistics2-Supergiant', version: 'v1.0.2+b38e9e54f', classifier: 'dev'
     compileOnly 'curse.maven:mouse-tweaks-unofficial-461660:5876158'
-    modImplementation 'software.bernie.geckolib:geckolib-forge-1.12.2:3.0.31'
+    //modImplementation 'software.bernie.geckolib:geckolib-forge-1.12.2:3.0.31'
 
 }

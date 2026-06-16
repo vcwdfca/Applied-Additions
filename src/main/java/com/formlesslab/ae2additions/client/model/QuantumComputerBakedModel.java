@@ -1,7 +1,7 @@
 package com.formlesslab.ae2additions.client.model;
 
 import ae2.client.render.VertexFormats;
-import ae2.client.render.crafting.CraftingCubeState;
+import ae2.helpers.crafting.CraftingCubeState;
 import com.formlesslab.ae2additions.block.quantum.BlockAAEAbstractCraftingUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
