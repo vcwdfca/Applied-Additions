@@ -10,11 +10,9 @@ Cleanroom is required for the necessity.
 
 Need Java25.
 
-## License
-
-Everything is under the [LGPLv3][lgpl]
-
-[lgpl]: https://spdx.org/licenses/LGPL-3.0-or-later.html
+## Integrated
+* [GlodBlock/ExtendedAE](https://github.com/GlodBlock/ExtendedAE): integrated Quantum Computer behavior with partial code reuse under the LGPL-3.0 License.
+* [pedroksl/AdvancedAE](https://github.com/pedroksl/AdvancedAE): integrated Wireless Hub, Wireless Connector, Assembler Matrix behavior with partial code reuse under the LGPL-3.0 License;
 
 ## Credits
 
