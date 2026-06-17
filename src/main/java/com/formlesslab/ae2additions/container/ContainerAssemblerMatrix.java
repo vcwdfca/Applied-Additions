@@ -95,8 +95,7 @@ public class ContainerAssemblerMatrix extends AEBaseContainer
     @Override
     public void requestCancel() {
         if (this.isClientSide()) {
-            com.formlesslab.ae2additions.network.ModNetwork.sendToServer(
-                new CAssemblerMatrixCancel());
+            ModNetwork.sendToServer(new CAssemblerMatrixCancel());
         } else {
             this.cancelAssemblerMatrixJobs();
         }
@@ -105,8 +104,7 @@ public class ContainerAssemblerMatrix extends AEBaseContainer
     @Override
     public void requestPatternMode(boolean hide) {
         if (this.isClientSide()) {
-            com.formlesslab.ae2additions.network.ModNetwork.sendToServer(
-                new CAssemblerMatrixPatternMode(hide));
+            ModNetwork.sendToServer(new CAssemblerMatrixPatternMode(hide));
         } else {
             this.setAssemblerMatrixPatternMode(hide);
         }

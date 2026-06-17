@@ -272,29 +272,18 @@ public class AssemblerGlassBakedModel implements IBakedModel {
         return new Vector3f(x, y, z);
     }
 
-    private static class FaceCorner {
-        private final EnumFacing face;
-        private final int corner;
-
-        FaceCorner(EnumFacing face, int corner) {
-            this.face = face;
-            this.corner = corner;
-        }
+    private record FaceCorner(EnumFacing face, int corner) {
 
         @Override
-        public boolean equals(Object obj) {
-            if (this == obj) {
-                return true;
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (!(obj instanceof FaceCorner(EnumFacing face1, int corner1))) {
+                    return false;
+                }
+                return this.face == face1 && this.corner == corner1;
             }
-            if (!(obj instanceof FaceCorner other)) {
-                return false;
-            }
-            return this.face == other.face && this.corner == other.corner;
-        }
 
-        @Override
-        public int hashCode() {
-            return this.face.hashCode() * 31 + this.corner;
-        }
     }
 }

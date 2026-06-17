@@ -4,7 +4,9 @@ import com.formlesslab.ae2additions.tile.TileAssemblerMatrixFrame;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -28,8 +30,8 @@ public class BlockAssemblerMatrixFrame extends BlockAssemblerMatrixBase<TileAsse
 
     @Override
     public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY,
-                                            float hitZ, int meta, net.minecraft.entity.EntityLivingBase placer,
-                                            net.minecraft.util.EnumHand hand) {
+                                            float hitZ, int meta, EntityLivingBase placer,
+                                            EnumHand hand) {
         return getShapeType(super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer, hand), world, pos);
     }
 

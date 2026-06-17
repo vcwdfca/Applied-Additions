@@ -18,6 +18,7 @@ import ae2.util.inv.FilteredInternalInventory;
 import ae2.util.inv.InternalInventoryHost;
 import ae2.util.inv.filter.IAEItemFilter;
 import com.formlesslab.ae2additions.AppliedAdditions;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
@@ -32,7 +33,7 @@ public class CraftingMatrixThread {
     private static final int MAX_CRAFT_PROGRESS = 100;
     private static final Container NULL_CONTAINER = new Container() {
         @Override
-        public boolean canInteractWith(net.minecraft.entity.player.EntityPlayer playerIn) {
+        public boolean canInteractWith(EntityPlayer playerIn) {
             return false;
         }
     };

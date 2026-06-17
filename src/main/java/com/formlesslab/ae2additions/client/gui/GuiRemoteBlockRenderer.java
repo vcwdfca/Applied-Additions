@@ -164,23 +164,13 @@ final class GuiRemoteBlockRenderer {
     }
 
     private static BlockPos offset(BlockPos pos, int axis, int offset) {
-        switch (axis) {
-            case 0:
-                return pos.add(offset, 0, 0);
-            case 1:
-                return pos.add(0, offset, 0);
-            default:
-                return pos.add(0, 0, offset);
-        }
+        return switch (axis) {
+            case 0 -> pos.add(offset, 0, 0);
+            case 1 -> pos.add(0, offset, 0);
+            default -> pos.add(0, 0, offset);
+        };
     }
 
-    private static final class PreviewBlock {
-        private final IBlockState modelState;
-        private final IBlockState renderState;
-
-        private PreviewBlock(IBlockState modelState, IBlockState renderState) {
-            this.modelState = modelState;
-            this.renderState = renderState;
-        }
+    private record PreviewBlock(IBlockState modelState, IBlockState renderState) {
     }
 }

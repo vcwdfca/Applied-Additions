@@ -3,6 +3,7 @@ package com.formlesslab.ae2additions.client.gui.widgets;
 import ae2.api.inventories.InternalInventory;
 import ae2.container.slot.AppEngSlot;
 import ae2.crafting.pattern.EncodedPatternItem;
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -43,12 +44,7 @@ public class AssemblerMatrixSlot extends AppEngSlot {
         return super.isItemValid(stack);
     }
 
-    @Override
-    public int getSlotStackLimit() {
-        return super.getSlotStackLimit();
-    }
-
     private static World getDisplayWorld() {
-        return net.minecraft.client.Minecraft.getMinecraft().world;
+        return Minecraft.getMinecraft().world;
     }
 }

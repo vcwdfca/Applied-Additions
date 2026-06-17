@@ -19,6 +19,8 @@ import com.formlesslab.ae2additions.me.logic.AdvCraftingCPULogic;
 import com.formlesslab.ae2additions.tile.TileAdvCraftingBlock;
 import java.util.List;
 import java.util.function.Consumer;
+
+import it.unimi.dsi.fastutil.objects.Object2LongMap;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -103,7 +105,7 @@ public abstract class MixinCraftingCPUMenu extends AEBaseContainer {
 
             KeyCounter allItems = new KeyCounter();
             quantumCpu.craftingLogic.getAllItems(allItems);
-            for (it.unimi.dsi.fastutil.objects.Object2LongMap.Entry<AEKey> entry : allItems) {
+            for (Object2LongMap.Entry<AEKey> entry : allItems) {
                 this.incrementalUpdateHelper.addChange(entry.getKey());
             }
 

@@ -36,9 +36,9 @@ public enum AssemblerGlassModel implements IModel, ICustomModelLoader {
 
     @Override
     public IBakedModel bake(
-        @NonNull IModelState state,
-        @NonNull VertexFormat format,
-        Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter) {
+            @NonNull IModelState state,
+            @NonNull VertexFormat format,
+            @NonNull Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter) {
         return new AssemblerGlassBakedModel(format, bakedTextureGetter);
     }
 
@@ -53,6 +53,6 @@ public enum AssemblerGlassModel implements IModel, ICustomModelLoader {
     }
 
     @Override
-    public void onResourceManagerReload(IResourceManager resourceManager) {
+    public void onResourceManagerReload(@NonNull IResourceManager resourceManager) {
     }
 }

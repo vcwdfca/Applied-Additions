@@ -1,5 +1,7 @@
 package com.formlesslab.ae2additions.tile;
 
+import ae2.api.config.CpuSelectionMode;
+import ae2.api.config.Settings;
 import ae2.api.implementations.IPowerChannelState;
 import ae2.api.networking.GridFlags;
 import ae2.api.networking.IGridMultiblock;
@@ -28,6 +30,9 @@ import com.formlesslab.ae2additions.me.cluster.AdvCraftingCPUCluster;
 import com.formlesslab.ae2additions.api.QuantumComputerHost;
 import io.netty.buffer.ByteBuf;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
@@ -321,29 +326,29 @@ public class TileAdvCraftingBlock extends AENetworkedTile
     }
 
     @Override
-    public java.util.List<? extends ae2.api.networking.crafting.ICraftingCPU> getQuantumCpus() {
+    public List<? extends ICraftingCPU> getQuantumCpus() {
         if (this.cluster == null) {
-            return java.util.Collections.emptyList();
+            return Collections.emptyList();
         }
-        java.util.List<ae2.api.networking.crafting.ICraftingCPU> cpus = new java.util.ArrayList<>(this.cluster.getActiveCPUs());
+        List<ICraftingCPU> cpus = new ArrayList<>(this.cluster.getActiveCPUs());
         cpus.add(this.cluster.getRemainingCapacityCPU());
         return cpus;
     }
 
     @Override
-    public ae2.api.config.CpuSelectionMode getQuantumSelectionMode() {
+    public CpuSelectionMode getQuantumSelectionMode() {
         return this.cluster == null
-            ? ae2.api.config.CpuSelectionMode.ANY
+            ? CpuSelectionMode.ANY
             : this.cluster.getSelectionMode();
     }
 
     @Override
-    public void setQuantumSelectionMode(ae2.api.config.CpuSelectionMode mode) {
+    public void setQuantumSelectionMode(CpuSelectionMode mode) {
         if (this.cluster != null) {
-            this.cluster.getConfigManager().putSetting(ae2.api.config.Settings.CPU_SELECTION_MODE, mode);
+            this.cluster.getConfigManager().putSetting(Settings.CPU_SELECTION_MODE, mode);
             this.cluster.postCpuChange();
         } else {
-            this.getConfigManager().putSetting(ae2.api.config.Settings.CPU_SELECTION_MODE, mode);
+            this.getConfigManager().putSetting(Settings.CPU_SELECTION_MODE, mode);
         }
     }
 
@@ -433,7 +438,7 @@ public class TileAdvCraftingBlock extends AENetworkedTile
 
     private Iterator<IGridNode> getMultiblockNodes() {
         if (this.cluster == null) {
-            return java.util.Collections.emptyIterator();
+            return Collections.emptyIterator();
         }
         List<IGridNode> nodes = new ObjectArrayList<>();
         Iterator<TileAdvCraftingBlock> blockEntities = this.cluster.getQuantumBlockEntities();

@@ -206,7 +206,7 @@ public class TileAssemblerMatrixPattern extends TileAssemblerMatrixFunction
         return new PatternContainerGroup(
             icon,
             name,
-            java.util.List.of(new TextComponentTranslation("gui.ae2additions.assembler_matrix.pattern"))
+            List.of(new TextComponentTranslation("gui.ae2additions.assembler_matrix.pattern"))
         );
     }
 

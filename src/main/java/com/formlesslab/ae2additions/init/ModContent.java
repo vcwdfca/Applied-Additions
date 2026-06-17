@@ -27,6 +27,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
@@ -142,7 +143,7 @@ public final class ModContent {
         return registered;
     }
 
-    public static void registerTileEntity(Class<? extends net.minecraft.tileentity.TileEntity> tileClass, String name) {
+    public static void registerTileEntity(Class<? extends TileEntity> tileClass, String name) {
         TILE_ENTITIES.add(new TileEntityEntry(tileClass, name));
     }
 
@@ -175,23 +176,9 @@ public final class ModContent {
             new ModelResourceLocation(id(name), "inventory"));
     }
 
-    private static final class ModelEntry {
-        private final Item item;
-        private final String name;
-
-        private ModelEntry(Item item, String name) {
-            this.item = item;
-            this.name = name;
-        }
+    private record ModelEntry(Item item, String name) {
     }
 
-    private static final class TileEntityEntry {
-        private final Class<? extends net.minecraft.tileentity.TileEntity> tileClass;
-        private final String name;
-
-        private TileEntityEntry(Class<? extends net.minecraft.tileentity.TileEntity> tileClass, String name) {
-            this.tileClass = tileClass;
-            this.name = name;
-        }
+    private record TileEntityEntry(Class<? extends TileEntity> tileClass, String name) {
     }
 }

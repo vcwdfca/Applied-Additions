@@ -354,38 +354,31 @@ public class TileWirelessHub extends AENetworkedTile
         return port >= 0 && port < MAX_PORTS;
     }
 
-    private static final class PortNode implements WirelessNode {
-        private final TileWirelessHub hub;
-        private final int port;
-
-        private PortNode(TileWirelessHub hub, int port) {
-            this.hub = hub;
-            this.port = port;
-        }
+    private record PortNode(TileWirelessHub hub, int port) implements WirelessNode {
 
         @Override
-        public long getFrequency() {
-            return this.hub.frequencies[this.port];
-        }
+            public long getFrequency() {
+                return this.hub.frequencies[this.port];
+            }
 
-        @Override
-        public World getWirelessWorld() {
-            return this.hub.getWorld();
-        }
+            @Override
+            public World getWirelessWorld() {
+                return this.hub.getWorld();
+            }
 
-        @Override
-        public BlockPos getWirelessPos() {
-            return this.hub.getPos();
-        }
+            @Override
+            public BlockPos getWirelessPos() {
+                return this.hub.getPos();
+            }
 
-        @Override
-        public IGridNode getWirelessGridNode() {
-            return this.hub.getMainNode().getNode();
-        }
+            @Override
+            public IGridNode getWirelessGridNode() {
+                return this.hub.getMainNode().getNode();
+            }
 
-        @Override
-        public TileEntity getWirelessTile() {
-            return this.hub;
+            @Override
+            public TileEntity getWirelessTile() {
+                return this.hub;
+            }
         }
-    }
 }

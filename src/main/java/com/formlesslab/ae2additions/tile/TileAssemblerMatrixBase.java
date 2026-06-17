@@ -33,6 +33,7 @@ import net.minecraftforge.items.IItemHandler;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
@@ -330,7 +331,7 @@ public abstract class TileAssemblerMatrixBase extends AENetworkedTile
 
     private Iterator<IGridNode> getMultiblockNodes() {
         if (this.getCluster() == null) {
-            return java.util.Collections.emptyIterator();
+            return Collections.emptyIterator();
         }
         List<IGridNode> nodes = new ArrayList<>();
         Iterator<TileAssemblerMatrixBase> it = this.getCluster().getBlockEntities();

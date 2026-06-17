@@ -2,6 +2,7 @@ package com.formlesslab.ae2additions;
 
 import com.formlesslab.ae2additions.client.model.AssemblerGlassModel;
 import com.formlesslab.ae2additions.client.render.QuantumComputerModelOverride;
+import com.formlesslab.ae2additions.client.render.WirelessHighlightHandler;
 import com.formlesslab.ae2additions.init.ModConfig;
 import com.formlesslab.ae2additions.init.ModContent;
 import com.formlesslab.ae2additions.init.ModUpgrades;
@@ -39,7 +40,7 @@ public class AppliedAdditions {
         if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
             AssemblerGlassModel.register();
             MinecraftForge.EVENT_BUS.register(QuantumComputerModelOverride.INSTANCE);
-            MinecraftForge.EVENT_BUS.register(com.formlesslab.ae2additions.client.render.WirelessHighlightHandler.INSTANCE);
+            MinecraftForge.EVENT_BUS.register(WirelessHighlightHandler.INSTANCE);
         }
         LOGGER.info("{} initialized", Reference.MOD_NAME);
     }

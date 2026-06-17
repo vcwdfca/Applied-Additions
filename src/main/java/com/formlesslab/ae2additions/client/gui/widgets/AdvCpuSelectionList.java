@@ -17,6 +17,7 @@ import ae2.core.localization.GuiText;
 import com.formlesslab.ae2additions.client.util.QuantumComputerEntry;
 import com.formlesslab.ae2additions.container.ContainerQuantumComputer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.Style;
@@ -165,7 +166,7 @@ public class AdvCpuSelectionList implements ICompositeWidget {
                 infoBar.add(currentJob.what(), 0.666F, x + 55, y + 9);
 
                 int progress = (int) (cpu.progress() * (this.buttonBg.getSrcWidth() - 1));
-                net.minecraft.client.gui.Gui.drawRect(
+                Gui.drawRect(
                     x,
                     y + this.buttonBg.getSrcHeight() - 2,
                     x + progress,

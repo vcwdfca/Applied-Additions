@@ -5,6 +5,7 @@ import com.formlesslab.ae2additions.api.AAECraftingUnitType;
 import com.formlesslab.ae2additions.client.util.QuantumComputerConnect;
 import com.formlesslab.ae2additions.client.model.QuantumComputerConnectProperty;
 import com.formlesslab.ae2additions.tile.TileAdvCraftingBlock;
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockRenderLayer;
@@ -68,7 +69,7 @@ public class BlockAAECraftingUnit extends BlockAAEAbstractCraftingUnit<TileAdvCr
         return extended.withProperty(QuantumComputerConnectProperty.INSTANCE, connect);
     }
 
-    private boolean shouldConnectTo(net.minecraft.block.Block block) {
+    private boolean shouldConnectTo(Block block) {
         return block instanceof BlockAAECraftingUnit
             && ((((BlockAAECraftingUnit) block).type == AAECraftingUnitType.QUANTUM_STRUCTURE) == (this.type == AAECraftingUnitType.QUANTUM_STRUCTURE));
     }

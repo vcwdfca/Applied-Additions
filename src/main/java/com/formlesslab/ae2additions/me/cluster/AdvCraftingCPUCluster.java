@@ -9,6 +9,7 @@ import ae2.api.networking.crafting.ICraftingCPU;
 import ae2.api.networking.crafting.ICraftingPlan;
 import ae2.api.networking.crafting.ICraftingRequester;
 import ae2.api.networking.crafting.ICraftingSubmitResult;
+import ae2.api.networking.energy.IEnergyService;
 import ae2.api.networking.events.GridCraftingCpuChange;
 import ae2.api.networking.security.IActionSource;
 import ae2.api.stacks.AEKey;
@@ -29,6 +30,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -181,13 +183,13 @@ public class AdvCraftingCPUCluster implements IAECluster {
         return requested;
     }
 
-    public void collectWaitingFor(java.util.Set<AEKey> waitingFor) {
+    public void collectWaitingFor(Set<AEKey> waitingFor) {
         for (AdvCraftingCPU cpu : this.getActiveCPUs()) {
             cpu.craftingLogic.getAllWaitingFor(waitingFor);
         }
     }
 
-    public long tickActiveCpus(ae2.api.networking.energy.IEnergyService energy, CraftingService craftingService) {
+    public long tickActiveCpus(IEnergyService energy, CraftingService craftingService) {
         long latestChange = 0;
         for (AdvCraftingCPU cpu : this.getActiveCPUs()) {
             cpu.craftingLogic.tickCraftingLogic(energy, craftingService);

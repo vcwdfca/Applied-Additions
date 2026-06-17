@@ -16,9 +16,12 @@ import com.formlesslab.ae2additions.me.cluster.AdvCraftingCPU;
 import com.formlesslab.ae2additions.me.cluster.AdvCraftingCPUCluster;
 import com.formlesslab.ae2additions.tile.TileAdvCraftingBlock;
 import com.google.common.collect.ImmutableSet;
+
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -102,7 +105,7 @@ public final class QuantumCraftingServiceBridge {
         IActionSource src,
         AtomicReference<UnsuitableCpus> unsuitable
     ) {
-        java.util.List<AdvCraftingCPUCluster> candidates = new java.util.ArrayList<>();
+        List<AdvCraftingCPUCluster> candidates = new ArrayList<>();
         int offline = 0;
         int tooSmall = 0;
         int excluded = 0;
