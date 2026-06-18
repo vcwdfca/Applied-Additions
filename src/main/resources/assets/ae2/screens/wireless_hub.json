@@ -11,6 +11,24 @@
       "top": 0,
       "height": 90
     },
+    "powerText": {
+      "left": 8,
+      "top": 18,
+      "width": 136,
+      "height": 12
+    },
+    "channelsText": {
+      "left": 8,
+      "top": 30,
+      "width": 136,
+      "height": 12
+    },
+    "port0": {
+      "left": 37,
+      "top": 44,
+      "width": 16,
+      "height": 16
+    },
     "highlight0": {
       "left": 19,
       "top": 42,
@@ -20,6 +38,12 @@
     "disconnect0": {
       "left": 55,
       "top": 42,
+      "width": 16,
+      "height": 16
+    },
+    "port1": {
+      "left": 37,
+      "top": 72,
       "width": 16,
       "height": 16
     },
@@ -35,6 +59,12 @@
       "width": 16,
       "height": 16
     },
+    "port2": {
+      "left": 37,
+      "top": 100,
+      "width": 16,
+      "height": 16
+    },
     "highlight2": {
       "left": 19,
       "top": 98,
@@ -44,6 +74,12 @@
     "disconnect2": {
       "left": 55,
       "top": 98,
+      "width": 16,
+      "height": 16
+    },
+    "port3": {
+      "left": 37,
+      "top": 128,
       "width": 16,
       "height": 16
     },
@@ -59,6 +95,12 @@
       "width": 16,
       "height": 16
     },
+    "port4": {
+      "left": 120,
+      "top": 44,
+      "width": 16,
+      "height": 16
+    },
     "highlight4": {
       "left": 102,
       "top": 42,
@@ -68,6 +110,12 @@
     "disconnect4": {
       "left": 138,
       "top": 42,
+      "width": 16,
+      "height": 16
+    },
+    "port5": {
+      "left": 120,
+      "top": 72,
       "width": 16,
       "height": 16
     },
@@ -83,6 +131,12 @@
       "width": 16,
       "height": 16
     },
+    "port6": {
+      "left": 120,
+      "top": 100,
+      "width": 16,
+      "height": 16
+    },
     "highlight6": {
       "left": 102,
       "top": 98,
@@ -92,6 +146,12 @@
     "disconnect6": {
       "left": 138,
       "top": 98,
+      "width": 16,
+      "height": 16
+    },
+    "port7": {
+      "left": 120,
+      "top": 128,
       "width": 16,
       "height": 16
     },
@@ -106,6 +166,28 @@
       "top": 126,
       "width": 16,
       "height": 16
+    }
+  },
+  "images": {
+    "emptyPort": {
+      "texture": "guis/wireless_hub.png",
+      "srcRect": [
+        176,
+        0,
+        16,
+        16
+      ]
+    },
+    "highlightIcon": {
+      "texture": "ae2additions:textures/guis/nicons.png",
+      "textureWidth": 64,
+      "textureHeight": 64,
+      "srcRect": [
+        16,
+        0,
+        16,
+        16
+      ]
     }
   },
   "text": {

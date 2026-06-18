@@ -22,6 +22,60 @@
       "top": 27,
       "width": 16,
       "height": 16
+    },
+    "statusText": {
+      "left": 8,
+      "top": 18,
+      "width": 136,
+      "height": 12
+    },
+    "powerText": {
+      "left": 8,
+      "top": 30,
+      "width": 136,
+      "height": 12
+    },
+    "channelsText": {
+      "left": 8,
+      "top": 42,
+      "width": 136,
+      "height": 12
+    },
+    "remoteText": {
+      "left": 22,
+      "top": 62,
+      "width": 132,
+      "height": 12
+    },
+    "remotePreview": {
+      "left": 24,
+      "top": 76,
+      "width": 129,
+      "height": 63
+    }
+  },
+  "images": {
+    "infoIcon": {
+      "texture": "ae2additions:textures/guis/nicons.png",
+      "textureWidth": 64,
+      "textureHeight": 64,
+      "srcRect": [
+        0,
+        0,
+        16,
+        16
+      ]
+    },
+    "highlightIcon": {
+      "texture": "ae2additions:textures/guis/nicons.png",
+      "textureWidth": 64,
+      "textureHeight": 64,
+      "srcRect": [
+        16,
+        0,
+        16,
+        16
+      ]
     }
   },
   "text": {

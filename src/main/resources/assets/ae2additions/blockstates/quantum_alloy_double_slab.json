@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "variant=default": {
+      "model": "ae2additions:quantum_alloy_double_slab"
+    }
+  }
+}

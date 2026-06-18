@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/wall_post",
+  "textures": {
+    "wall": "ae2additions:block/quantum_alloy_block"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "AAA",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "ae2additions:quantum_alloy_block"
+    }
+  },
+  "result": {
+    "item": "ae2additions:quantum_alloy_wall",
+    "count": 6
+  }
+}

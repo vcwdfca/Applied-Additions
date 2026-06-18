@@ -1,0 +1,25 @@
+{
+  "type": "ae2additions:reaction_chamber",
+  "input_energy": 200000,
+  "input_fluid": {
+    "amount": 100,
+    "ingredient": "lava"
+  },
+  "input_items": [
+    {
+      "ingredient": "ae2:singularity"
+    },
+    {
+      "amount": 2,
+      "ingredient": "ae2:ender_dust"
+    },
+    {
+      "amount": 2,
+      "ingredient": "ae2:sky_dust"
+    }
+  ],
+  "itemOutput": {
+    "count": 2,
+    "id": "ae2additions:shattered_singularity"
+  }
+}

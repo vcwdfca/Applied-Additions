@@ -1,39 +1,29 @@
 package com.formlesslab.ae2additions.client.gui;
 
+import ae2.client.Point;
 import ae2.client.gui.Icon;
 import ae2.client.gui.implementations.GuiUpgradeable;
 import ae2.client.gui.style.Blitter;
 import ae2.client.gui.style.GuiStyle;
 import ae2.client.gui.style.PaletteColor;
+import ae2.client.gui.style.WidgetStyle;
 import ae2.client.gui.widgets.IconButton;
 import ae2.util.Platform;
-import com.formlesslab.ae2additions.Reference;
+import com.formlesslab.ae2additions.api.WirelessStatus;
 import com.formlesslab.ae2additions.client.render.WirelessHighlightHandler;
 import com.formlesslab.ae2additions.container.ContainerWirelessConnector;
-import com.formlesslab.ae2additions.api.WirelessStatus;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import org.lwjgl.input.Mouse;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.Locale;
 
 public class GuiWirelessConnector extends GuiUpgradeable<ContainerWirelessConnector> {
-    public static final int PADDING_X = 8;
-    public static final int PADDING_Y = 6;
-
-    private static final ResourceLocation ICON_TEXTURE = new ResourceLocation(Reference.MOD_ID, "textures/guis/nicons.png");
-    private static final Blitter INFO = Blitter.texture(ICON_TEXTURE, 64, 64).src(0, 0, 16, 16);
-    private static final Blitter HIGHLIGHT = Blitter.texture(ICON_TEXTURE, 64, 64).src(16, 0, 16, 16);
-    private static final int REMOTE_X = 24;
-    private static final int REMOTE_Y = 76;
-    private static final int REMOTE_WIDTH = 129;
-    private static final int REMOTE_HEIGHT = 63;
-
     private final IconButton statusIcon;
     private final IconButton highlightButton;
     private float remoteRotationX = 30.0F;
@@ -49,11 +39,11 @@ public class GuiWirelessConnector extends GuiUpgradeable<ContainerWirelessConnec
     public GuiWirelessConnector(ContainerWirelessConnector container, InventoryPlayer playerInventory, GuiStyle style) {
         super(container, playerInventory, new TextComponentTranslation("gui.ae2additions.wireless_connector"), style);
 
-        this.statusIcon = new ConnectorIconButton(null, INFO);
+        this.statusIcon = new ConnectorIconButton(null, style.getImage("infoIcon"));
         this.statusIcon.setMessage(statusDescription(container.status));
         this.widgets.add("statusIcon", this.statusIcon);
 
-        this.highlightButton = new ConnectorIconButton(this::highlightRemote, HIGHLIGHT);
+        this.highlightButton = new ConnectorIconButton(this::highlightRemote, style.getImage("highlightIcon"));
         this.highlightButton.setMessage(new TextComponentTranslation("gui.ae2additions.highlight.tooltip"));
         this.widgets.add("highlight", this.highlightButton);
     }
@@ -69,52 +59,56 @@ public class GuiWirelessConnector extends GuiUpgradeable<ContainerWirelessConnec
     public void drawFG(int offsetX, int offsetY, int mouseX, int mouseY) {
         super.drawFG(offsetX, offsetY, mouseX, mouseY);
         int textColor = this.style.getColor(PaletteColor.DEFAULT_TEXT_COLOR).toARGB() & 0xFFFFFF;
-        int lineHeight = 12;
 
+        Point statusPos = this.resolveWidget("statusText");
         this.fontRenderer.drawString(
             new TextComponentTranslation("gui.ae2additions.status",
                 new TextComponentTranslation(statusKey(this.container.status)).getFormattedText()).getFormattedText(),
-            PADDING_X,
-            PADDING_Y + lineHeight,
+                statusPos.x(),
+                statusPos.y(),
             textColor);
+        Point powerPos = this.resolveWidget("powerText");
         this.fontRenderer.drawString(
             new TextComponentTranslation("gui.ae2additions.power",
                 Platform.formatPower(this.container.powerUse, true)).getFormattedText(),
-            PADDING_X,
-            PADDING_Y + lineHeight * 2,
+                powerPos.x(),
+                powerPos.y(),
             textColor);
+        Point channelsPos = this.resolveWidget("channelsText");
         this.fontRenderer.drawString(
             new TextComponentTranslation("gui.ae2additions.channels",
                 this.container.usedChannels, this.container.maxChannels).getFormattedText(),
-            PADDING_X,
-            PADDING_Y + lineHeight * 3,
+                channelsPos.x(),
+                channelsPos.y(),
             textColor);
 
         drawRemotePreview(textColor);
     }
 
     private void drawRemotePreview(int textColor) {
-        drawRect(REMOTE_X, REMOTE_Y, REMOTE_X + REMOTE_WIDTH, REMOTE_Y + REMOTE_HEIGHT, 0x66000000);
+        Rectangle preview = this.resolveWidgetBounds("remotePreview");
+        drawRect(preview.x, preview.y, preview.x + preview.width, preview.y + preview.height, 0x66000000);
         if (!this.container.hasRemote || this.container.status != WirelessStatus.WORKING) {
             String text = new TextComponentTranslation("gui.ae2additions.remote.none").getFormattedText();
             this.fontRenderer.drawString(text,
-                REMOTE_X + (REMOTE_WIDTH - this.fontRenderer.getStringWidth(text)) / 2,
-                REMOTE_Y + (REMOTE_HEIGHT - this.fontRenderer.FONT_HEIGHT) / 2,
+                    preview.x + (preview.width - this.fontRenderer.getStringWidth(text)) / 2,
+                    preview.y + (preview.height - this.fontRenderer.FONT_HEIGHT) / 2,
                 textColor);
             return;
         }
 
         BlockPos pos = remotePos();
-        GuiRemoteBlockRenderer.renderScene(pos, REMOTE_X + REMOTE_WIDTH / 2, REMOTE_Y + 35,
+        GuiRemoteBlockRenderer.renderScene(pos, preview.x + preview.width / 2, preview.y + 35,
             17.0F * this.remoteZoom, this.remoteRotationX, this.remoteRotationY,
             this.remoteOffsetX, this.remoteOffsetY,
-            this.guiLeft + REMOTE_X, this.guiTop + REMOTE_Y, REMOTE_WIDTH, REMOTE_HEIGHT);
+                this.guiLeft + preview.x, this.guiTop + preview.y, preview.width, preview.height);
 
+        Point remoteTextPos = this.resolveWidget("remoteText");
         this.fontRenderer.drawString(
             new TextComponentTranslation("gui.ae2additions.remote",
                 pos.getX(), pos.getY(), pos.getZ()).getFormattedText(),
-            22,
-            62,
+                remoteTextPos.x(),
+                remoteTextPos.y(),
             textColor);
     }
 
@@ -191,16 +185,21 @@ public class GuiWirelessConnector extends GuiUpgradeable<ContainerWirelessConnec
     private boolean canInteractWithRemote(int mouseX, int mouseY) {
         return this.container.hasRemote
             && this.container.status == WirelessStatus.WORKING
-            && isInRemotePreview(mouseX - this.guiLeft, mouseY - this.guiTop);
-    }
-
-    private static boolean isInRemotePreview(int x, int y) {
-        return x >= REMOTE_X && x < REMOTE_X + REMOTE_WIDTH
-            && y >= REMOTE_Y && y < REMOTE_Y + REMOTE_HEIGHT;
+                && this.resolveWidgetBounds("remotePreview").contains(mouseX - this.guiLeft, mouseY - this.guiTop);
     }
 
     private static float clamp(float value, float min, float max) {
         return Math.max(min, Math.min(max, value));
+    }
+
+    private Point resolveWidget(String id) {
+        return this.style.getWidget(id).resolve(new Rectangle(0, 0, this.xSize, this.ySize));
+    }
+
+    private Rectangle resolveWidgetBounds(String id) {
+        WidgetStyle widget = this.style.getWidget(id);
+        Point pos = widget.resolve(new Rectangle(0, 0, this.xSize, this.ySize));
+        return new Rectangle(pos.x(), pos.y(), widget.getWidth(), widget.getHeight());
     }
 
     static ITextComponent remoteText(boolean hasRemote, int x, int y, int z) {

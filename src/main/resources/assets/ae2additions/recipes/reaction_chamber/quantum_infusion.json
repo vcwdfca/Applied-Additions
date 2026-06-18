@@ -1,0 +1,17 @@
+{
+  "type": "ae2additions:reaction_chamber",
+  "fluidOutput": {
+    "amount": 1000,
+    "id": "quantum_infusion"
+  },
+  "input_energy": 20000,
+  "input_fluid": {
+    "amount": 4000,
+    "ingredient": "water"
+  },
+  "input_items": [
+    {
+      "ingredient": "ae2additions:quantum_infused_dust"
+    }
+  ]
+}

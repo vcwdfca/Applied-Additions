@@ -1,0 +1,5 @@
+{
+  "recipes": {
+    "reaction_chamber": "com.formlesslab.ae2additions.recipe.ReactionChamberRecipeFactory"
+  }
+}

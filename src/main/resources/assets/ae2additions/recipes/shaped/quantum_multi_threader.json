@@ -1,29 +1,26 @@
 {
   "type": "forge:ore_shaped",
   "pattern": [
-    "SES",
-    "AUT",
-    "SES"
+    "SSS",
+    "AUA",
+    "ACA"
   ],
   "key": {
     "A": {
       "item": "ae2additions:quantum_accelerator"
     },
-    "E": {
-      "item": "ae2:quantum_entangled_singularity"
+    "C": {
+      "item": "ae2additions:quantum_core"
     },
     "S": {
-      "item": "ae2:singularity"
-    },
-    "T": {
-      "item": "ae2additions:quantum_storage_256"
+      "item": "ae2additions:shattered_singularity"
     },
     "U": {
       "item": "ae2additions:quantum_unit"
     }
   },
   "result": {
-    "item": "ae2additions:quantum_core",
+    "item": "ae2additions:quantum_multi_threader",
     "count": 1
   }
 }

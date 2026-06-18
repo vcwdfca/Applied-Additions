@@ -1,0 +1,24 @@
+{
+  "type": "ae2additions:reaction_chamber",
+  "input_energy": 1000000,
+  "input_fluid": {
+    "amount": 1000,
+    "ingredient": "quantum_infusion"
+  },
+  "input_items": [
+    {
+      "amount": 8,
+      "ingredient": "ae2additions:quantum_alloy"
+    },
+    {
+      "amount": 2,
+      "ingredient": "minecraft:diamond"
+    },
+    {
+      "ingredient": "minecraft:nether_star"
+    }
+  ],
+  "itemOutput": {
+    "id": "ae2additions:quantum_alloy_plate"
+  }
+}

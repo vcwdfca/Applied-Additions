@@ -1,0 +1,17 @@
+{
+  "type": "ae2additions:reaction_chamber",
+  "input_energy": 1000000,
+  "input_fluid": {
+    "amount": 100,
+    "ingredient": "lava"
+  },
+  "input_items": [
+    {
+      "amount": 64,
+      "ingredient": "ae2:matter_ball"
+    }
+  ],
+  "itemOutput": {
+    "id": "ae2:singularity"
+  }
+}

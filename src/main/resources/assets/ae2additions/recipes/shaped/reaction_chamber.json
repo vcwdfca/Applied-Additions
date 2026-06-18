@@ -1,0 +1,32 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "EME",
+    "FVF",
+    "GBG"
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:bucket"
+    },
+    "E": {
+      "item": "ae2:fluix_dust"
+    },
+    "F": {
+      "item": "ae2:fluix_dust"
+    },
+    "G": {
+      "item": "minecraft:glowstone_dust"
+    },
+    "M": {
+      "item": "ae2:condenser"
+    },
+    "V": {
+      "item": "ae2:vibration_chamber"
+    }
+  },
+  "result": {
+    "item": "ae2additions:reaction_chamber",
+    "count": 1
+  }
+}

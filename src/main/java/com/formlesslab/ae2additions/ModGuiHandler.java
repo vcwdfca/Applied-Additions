@@ -1,18 +1,9 @@
 package com.formlesslab.ae2additions;
 
 import ae2.client.gui.style.GuiStyleManager;
-import com.formlesslab.ae2additions.client.gui.GuiAssemblerMatrix;
-import com.formlesslab.ae2additions.client.gui.GuiQuantumComputer;
-import com.formlesslab.ae2additions.tile.TileAssemblerMatrixBase;
-import com.formlesslab.ae2additions.client.gui.GuiWirelessConnector;
-import com.formlesslab.ae2additions.client.gui.GuiWirelessHub;
-import com.formlesslab.ae2additions.container.ContainerAssemblerMatrix;
-import com.formlesslab.ae2additions.container.ContainerWirelessConnector;
-import com.formlesslab.ae2additions.container.ContainerWirelessHub;
-import com.formlesslab.ae2additions.container.ContainerQuantumComputer;
-import com.formlesslab.ae2additions.tile.TileAdvCraftingBlock;
-import com.formlesslab.ae2additions.tile.TileWirelessConnector;
-import com.formlesslab.ae2additions.tile.TileWirelessHub;
+import com.formlesslab.ae2additions.client.gui.*;
+import com.formlesslab.ae2additions.container.*;
+import com.formlesslab.ae2additions.tile.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -29,6 +20,7 @@ public class ModGuiHandler implements IGuiHandler {
     public static final int WIRELESS_HUB = 1;
     public static final int QUANTUM_COMPUTER = 2;
     public static final int ASSEMBLER_MATRIX = 3;
+    public static final int REACTION_CHAMBER = 4;
 
     private static final Map<Integer, GuiRegistration<?>> REGISTRATIONS = new LinkedHashMap<>();
     private static boolean clientRegistrationsInitialized;
@@ -50,6 +42,10 @@ public class ModGuiHandler implements IGuiHandler {
             ASSEMBLER_MATRIX,
             TileAssemblerMatrixBase.class,
             (player, _, _, matrix) -> new ContainerAssemblerMatrix(player.inventory, matrix));
+        registerGui(
+                REACTION_CHAMBER,
+                TileReactionChamber.class,
+                (player, _, _, chamber) -> new ContainerReactionChamber(player.inventory, chamber));
     }
 
     public static <T extends TileEntity> void registerGui(int id, Class<T> tileClass,
@@ -129,6 +125,13 @@ public class ModGuiHandler implements IGuiHandler {
                 new ContainerAssemblerMatrix(player.inventory, matrix),
                 player.inventory,
                 GuiAssemblerMatrix.loadStyle()));
+        registerClientGui(
+                REACTION_CHAMBER,
+                TileReactionChamber.class,
+                (player, _, _, chamber) -> new GuiReactionChamber(
+                        new ContainerReactionChamber(player.inventory, chamber),
+                        player.inventory,
+                        GuiStyleManager.loadStyleDoc("/screens/reaction_chamber.json")));
     }
 
     @FunctionalInterface

@@ -61,7 +61,8 @@ dependencies {
     // }
 
     modImplementation name: 'AppliedEnergistics2-Supergiant', version: 'v1.0.2+b38e9e54f', classifier: 'dev'
-    compileOnly 'curse.maven:mouse-tweaks-unofficial-461660:5876158'
+    modImplementation "curse.maven:had-enough-items-557549:7938914"
+    modCompileOnly 'curse.maven:mouse-tweaks-unofficial-461660:5876158'
     //modImplementation 'software.bernie.geckolib:geckolib-forge-1.12.2:3.0.31'
 
 }

@@ -1,0 +1,6 @@
+{
+  "parent": "block/wall_inventory",
+  "textures": {
+    "wall": "ae2additions:block/quantum_alloy_block"
+  }
+}

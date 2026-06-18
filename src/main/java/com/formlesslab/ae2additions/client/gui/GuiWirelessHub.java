@@ -1,49 +1,40 @@
 package com.formlesslab.ae2additions.client.gui;
 
+import ae2.client.Point;
 import ae2.client.gui.Icon;
 import ae2.client.gui.implementations.GuiUpgradeable;
 import ae2.client.gui.style.Blitter;
 import ae2.client.gui.style.GuiStyle;
 import ae2.client.gui.style.PaletteColor;
+import ae2.client.gui.style.WidgetStyle;
 import ae2.client.gui.widgets.IconButton;
 import ae2.util.Platform;
-import com.formlesslab.ae2additions.Reference;
+import com.formlesslab.ae2additions.api.WirelessStatus;
 import com.formlesslab.ae2additions.client.render.WirelessHighlightHandler;
 import com.formlesslab.ae2additions.container.ContainerWirelessHub;
 import com.formlesslab.ae2additions.tile.TileWirelessHub;
-import com.formlesslab.ae2additions.api.WirelessStatus;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 
+import java.awt.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class GuiWirelessHub extends GuiUpgradeable<ContainerWirelessHub> {
-    private static final ResourceLocation HUB_TEXTURE = new ResourceLocation("ae2", "textures/guis/wireless_hub.png");
-    private static final ResourceLocation ICON_TEXTURE = new ResourceLocation(Reference.MOD_ID, "textures/guis/nicons.png");
-    private static final Blitter PORT = Blitter.texture(HUB_TEXTURE).src(176, 0, 16, 16);
-    private static final Blitter HIGHLIGHT = Blitter.texture(ICON_TEXTURE, 64, 64).src(16, 0, 16, 16);
-
-    private static final int COL1_X = 37;
-    private static final int COL2_X = 120;
-    private static final int COL_Y = 44;
-    private static final int Y_OFFSET = 28;
-    private static final int PADDING_X = 8;
-    private static final int PADDING_Y = 6;
-
+    private final Blitter emptyPort;
     private final IconButton[] highlightButtons = new IconButton[TileWirelessHub.MAX_PORTS];
     private final IconButton[] disconnectButtons = new IconButton[TileWirelessHub.MAX_PORTS];
 
     public GuiWirelessHub(ContainerWirelessHub container, InventoryPlayer playerInventory, GuiStyle style) {
         super(container, playerInventory, new TextComponentTranslation("gui.ae2additions.wireless_hub"), style);
+        this.emptyPort = style.getImage("emptyPort");
         for (int i = 0; i < TileWirelessHub.MAX_PORTS; i++) {
             final int port = i;
-            IconButton highlight = new HubIconButton(() -> showHighlightMessage(port), HIGHLIGHT);
+            IconButton highlight = new HubIconButton(() -> showHighlightMessage(port), style.getImage("highlightIcon"));
             highlight.setMessage(new TextComponentTranslation("gui.ae2additions.highlight.tooltip"));
             this.widgets.add("highlight" + i, highlight);
             this.highlightButtons[i] = highlight;
@@ -70,28 +61,28 @@ public class GuiWirelessHub extends GuiUpgradeable<ContainerWirelessHub> {
     public void drawFG(int offsetX, int offsetY, int mouseX, int mouseY) {
         super.drawFG(offsetX, offsetY, mouseX, mouseY);
         int textColor = this.style.getColor(PaletteColor.DEFAULT_TEXT_COLOR).toARGB() & 0xFFFFFF;
-        int lineHeight = 12;
+        Point powerPos = this.resolveWidget("powerText");
         this.fontRenderer.drawString(
             new TextComponentTranslation("gui.ae2additions.power",
                 Platform.formatPower(this.container.powerUse, true)).getFormattedText(),
-            PADDING_X,
-            PADDING_Y + lineHeight,
+                powerPos.x(),
+                powerPos.y(),
             textColor);
+        Point channelsPos = this.resolveWidget("channelsText");
         this.fontRenderer.drawString(
             new TextComponentTranslation("gui.ae2additions.channels",
                 this.container.usedChannels, this.container.maxChannels).getFormattedText(),
-            PADDING_X,
-            PADDING_Y + lineHeight * 2,
+                channelsPos.x(),
+                channelsPos.y(),
             textColor);
 
         ContainerWirelessHub.PortState ports = this.container.ports;
         for (int i = 0; i < TileWirelessHub.MAX_PORTS; i++) {
-            int x = portX(i);
-            int y = portY(i);
+            Rectangle portBounds = portBounds(i);
             if (isConnectedForDisplay(ports.getStatus(i), ports.hasRemote(i))) {
-                renderRemoteBlock(ports, i, x, y);
+                renderRemoteBlock(ports, i, portBounds.x, portBounds.y);
             } else {
-                PORT.copy().dest(x, y).blit();
+                this.emptyPort.copy().dest(portBounds.x, portBounds.y).blit();
             }
         }
     }
@@ -107,7 +98,7 @@ public class GuiWirelessHub extends GuiUpgradeable<ContainerWirelessHub> {
 
     private void renderRemoteBlock(ContainerWirelessHub.PortState ports, int port, int x, int y) {
         if (!GuiRemoteBlockRenderer.renderSingle(remotePos(ports, port), x + 1, y + 1, 14.0F)) {
-            PORT.copy().dest(x, y).blit();
+            this.emptyPort.copy().dest(x, y).blit();
         }
     }
 
@@ -145,23 +136,27 @@ public class GuiWirelessHub extends GuiUpgradeable<ContainerWirelessHub> {
         return new BlockPos(ports.getRemoteX(port), ports.getRemoteY(port), ports.getRemoteZ(port));
     }
 
-    private static int portX(int port) {
-        return port < 4 ? COL1_X : COL2_X;
-    }
-
-    private static int portY(int port) {
-        return COL_Y + port % 4 * Y_OFFSET;
-    }
-
-    private static int hoveredPort(int mouseX, int mouseY) {
+    private int hoveredPort(int mouseX, int mouseY) {
         for (int i = 0; i < TileWirelessHub.MAX_PORTS; i++) {
-            int x = portX(i);
-            int y = portY(i);
-            if (mouseX >= x && mouseX < x + 16 && mouseY >= y && mouseY < y + 16) {
+            if (portBounds(i).contains(mouseX, mouseY)) {
                 return i;
             }
         }
         return -1;
+    }
+
+    private Rectangle portBounds(int port) {
+        return this.resolveWidgetBounds("port" + port);
+    }
+
+    private Point resolveWidget(String id) {
+        return this.style.getWidget(id).resolve(new Rectangle(0, 0, this.xSize, this.ySize));
+    }
+
+    private Rectangle resolveWidgetBounds(String id) {
+        WidgetStyle widget = this.style.getWidget(id);
+        Point pos = widget.resolve(new Rectangle(0, 0, this.xSize, this.ySize));
+        return new Rectangle(pos.x(), pos.y(), widget.getWidth(), widget.getHeight());
     }
 
     private static class HubIconButton extends IconButton {

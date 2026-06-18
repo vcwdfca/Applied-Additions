@@ -3,10 +3,10 @@ package com.formlesslab.ae2additions.client.gui;
 import ae2.api.crafting.IPatternDetails;
 import ae2.api.crafting.PatternDetailsHelper;
 import ae2.api.stacks.GenericStack;
+import ae2.client.Point;
 import ae2.client.gui.AEBaseGui;
 import ae2.client.gui.Icon;
-import ae2.client.gui.style.GuiStyle;
-import ae2.client.gui.style.PaletteColor;
+import ae2.client.gui.style.*;
 import ae2.client.gui.widgets.AETextField;
 import ae2.client.gui.widgets.IconButton;
 import ae2.client.gui.widgets.Scrollbar;
@@ -26,53 +26,18 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentTranslation;
 
+import java.awt.*;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.TreeMap;
 
 public class GuiAssemblerMatrix<T extends AEBaseContainer & AssemblerMatrixMenu> extends AEBaseGui<T> {
     private static final int ROW_HEIGHT = 18;
     private static final int GUI_PADDING_X = 8;
     private static final int SLOT_SIZE = 18;
     private static final int VISIBLE_ROWS = 4;
-    private static final ResourceLocation BG = new ResourceLocation("ae2additions", "textures/guis/assembler_matrix.png");
-    private static final String DEFAULT_STYLE_JSON = "{"
-        + "\"palette\":{"
-        + "\"DEFAULT_TEXT_COLOR\":\"#413f54\","
-        + "\"MUTED_TEXT_COLOR\":\"#878fa5\","
-        + "\"SELECTION_COLOR\":\"#ace9ff\","
-        + "\"TEXTFIELD_PLACEHOLDER\":\"#dedfe3\","
-        + "\"TEXTFIELD_SELECTION\":\"#FF0000FF\","
-        + "\"TEXTFIELD_ERROR\":\"#FF1900\","
-        + "\"TEXTFIELD_TEXT\":\"#f2f2f2\","
-        + "\"ERROR\":\"#CE2401\","
-        + "\"WHITE\":\"#FFFFFF\","
-        + "\"ANALYSER_NORMAL_NODES\":\"#32A843\","
-        + "\"ANALYSER_DENSE_NODES\":\"#19B3A3\","
-        + "\"ANALYSER_MISSING_NODES\":\"#AA1A1A\""
-        + "},"
-        + "\"background\":{\"texture\":\"ae2additions:textures/guis/assembler_matrix.png\",\"srcRect\":[0,0,195,201]},"
-        + "\"text\":{"
-        + "\"dialog_title\":{\"text\":{\"translate\":\"gui.ae2additions.assembler_matrix\"},\"position\":{\"left\":7,\"top\":6}},"
-        + "\"player_inventory_title\":{\"text\":{\"translate\":\"container.inventory\"},\"position\":{\"left\":7,\"bottom\":95}}"
-        + "},"
-        + "\"slots\":{"
-        + "\"PLAYER_INVENTORY\":{\"left\":8,\"bottom\":84,\"grid\":\"BREAK_AFTER_9COLS\"},"
-        + "\"PLAYER_HOTBAR\":{\"left\":8,\"bottom\":26,\"grid\":\"HORIZONTAL\"}"
-        + "},"
-        + "\"widgets\":{"
-        + "\"verticalToolbar\":{\"left\":3,\"top\":1},"
-        + "\"scrollbar\":{\"left\":175,\"top\":31},"
-        + "\"search\":{\"left\":7,\"top\":17,\"width\":65,\"height\":10}"
-        + "}"
-        + "}";
 
     private final Scrollbar scrollbar;
     private final Map<Long, PatternInfo> infos = new TreeMap<>();
@@ -103,9 +68,7 @@ public class GuiAssemblerMatrix<T extends AEBaseContainer & AssemblerMatrixMenu>
     }
 
     public static GuiStyle loadStyle() {
-        GuiStyle style = GuiStyle.GSON.fromJson(DEFAULT_STYLE_JSON, GuiStyle.class);
-        style.validate();
-        return style;
+        return GuiStyleManager.loadStyleDoc("/screens/assembler_matrix.json");
     }
 
     @Override
@@ -137,10 +100,11 @@ public class GuiAssemblerMatrix<T extends AEBaseContainer & AssemblerMatrixMenu>
     public void drawFG(int offsetX, int offsetY, int mouseX, int mouseY) {
         super.drawFG(offsetX, offsetY, mouseX, mouseY);
         int textColor = this.style.getColor(PaletteColor.DEFAULT_TEXT_COLOR).toARGB() & 0xFFFFFF;
+        Point threadPos = this.resolveWidget("threadText");
         this.fontRenderer.drawString(
             I18n.format("gui.ae2additions.assembler_matrix.threads", this.runningThreads),
-            80,
-            19,
+                threadPos.x(),
+                threadPos.y(),
             textColor);
         if (!this.searchField.getText().isEmpty()) {
             for (AssemblerMatrixSlot slot : this.visibleSlots) {
@@ -155,14 +119,14 @@ public class GuiAssemblerMatrix<T extends AEBaseContainer & AssemblerMatrixMenu>
         super.drawBG(offsetX, offsetY, mouseX, mouseY, partialTicks);
         int size = this.rows.size();
         if (size < VISIBLE_ROWS) {
-            this.mc.getTextureManager().bindTexture(BG);
             boolean first = true;
             while (size < VISIBLE_ROWS) {
+                Blitter emptyRow = this.style.getImage(first ? "emptyFirstRow" : "emptyRow");
                 if (first) {
-                    this.drawTexturedModalRect(offsetX + GUI_PADDING_X, offsetY + SLOT_SIZE * size + 31, 0, 203, 160, 16);
+                    emptyRow.dest(offsetX + GUI_PADDING_X, offsetY + SLOT_SIZE * size + 31).blit();
                     first = false;
                 } else {
-                    this.drawTexturedModalRect(offsetX + GUI_PADDING_X, offsetY + SLOT_SIZE * size + 29, 0, 219, 160, 18);
+                    emptyRow.dest(offsetX + GUI_PADDING_X, offsetY + SLOT_SIZE * size + 29).blit();
                 }
                 size++;
             }
@@ -335,7 +299,15 @@ public class GuiAssemblerMatrix<T extends AEBaseContainer & AssemblerMatrixMenu>
     }
 
     private boolean isMouseOverThreadText(int x, int y) {
-        return x >= 80 && x < 190 && y >= 17 && y < 29;
+        WidgetStyle widget = this.style.getWidget("threadText");
+        Point pos = this.resolveWidget("threadText");
+        int width = widget.getWidth() > 0 ? widget.getWidth() : 110;
+        int height = widget.getHeight() > 0 ? widget.getHeight() : 12;
+        return x >= pos.x() && x < pos.x() + width && y >= pos.y() && y < pos.y() + height;
+    }
+
+    private Point resolveWidget(String id) {
+        return this.style.getWidget(id).resolve(new Rectangle(0, 0, this.xSize, this.ySize));
     }
 
     private InventoryAction getAction(int mouseButton, ClickType clickType) {

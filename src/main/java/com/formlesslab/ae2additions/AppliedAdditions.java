@@ -7,11 +7,11 @@ import com.formlesslab.ae2additions.init.ModConfig;
 import com.formlesslab.ae2additions.init.ModContent;
 import com.formlesslab.ae2additions.init.ModUpgrades;
 import com.formlesslab.ae2additions.network.ModNetwork;
-import com.formlesslab.ae2additions.Reference;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -48,5 +48,11 @@ public class AppliedAdditions {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         ModUpgrades.init();
+        ModContent.registerOreDictionary();
+    }
+
+    @Mod.EventHandler
+    public void postInit(FMLPostInitializationEvent event) {
+        ModContent.registerMachineRecipes();
     }
 }

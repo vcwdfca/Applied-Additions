@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "working=false": {
+      "model": "ae2additions:reaction_chamber"
+    },
+    "working=true": {
+      "model": "ae2additions:reaction_chamber"
+    }
+  }
+}

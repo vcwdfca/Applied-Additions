@@ -1,0 +1,92 @@
+package com.formlesslab.ae2additions.recipe;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.util.JsonUtils;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.crafting.CraftingHelper;
+import net.minecraftforge.common.crafting.IRecipeFactory;
+import net.minecraftforge.common.crafting.JsonContext;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@SuppressWarnings("unused")
+public class ReactionChamberRecipeFactory implements IRecipeFactory {
+    public static ReactionChamberRecipe fromJson(JsonObject json, JsonContext ctx) {
+        JsonArray inputItems = JsonUtils.getJsonArray(json, "input_items");
+        List<ReactionChamberRecipe.SizedIngredient> items = new ArrayList<>(inputItems.size());
+        for (JsonElement element : inputItems) {
+            JsonObject input = JsonUtils.getJsonObject(element, "input item");
+            int amount = JsonUtils.getInt(input, "amount", 1);
+            items.add(new ReactionChamberRecipe.SizedIngredient(readIngredient(input.get("ingredient"), ctx), amount));
+        }
+
+        JsonObject inputFluid = JsonUtils.getJsonObject(json, "input_fluid");
+        Fluid fluid = readFluid(JsonUtils.getString(inputFluid, "ingredient"));
+        int fluidAmount = JsonUtils.getInt(inputFluid, "amount");
+        int energy = JsonUtils.getInt(json, "input_energy");
+
+        ItemStack itemOutput = ItemStack.EMPTY;
+        FluidStack fluidOutput = null;
+        if (json.has("itemOutput")) {
+            itemOutput = readItemStack(JsonUtils.getJsonObject(json, "itemOutput"), ctx);
+        }
+        if (json.has("fluidOutput")) {
+            JsonObject output = JsonUtils.getJsonObject(json, "fluidOutput");
+            fluidOutput = new FluidStack(readFluid(JsonUtils.getString(output, "id")),
+                    JsonUtils.getInt(output, "amount"));
+        }
+        if (itemOutput.isEmpty() && fluidOutput == null) {
+            throw new JsonParseException("Reaction chamber recipe must define itemOutput or fluidOutput");
+        }
+
+        return new ReactionChamberRecipe(items, fluid, fluidAmount, energy, itemOutput, fluidOutput);
+    }
+
+    private static Ingredient readIngredient(JsonElement element, JsonContext ctx) {
+        if (element.isJsonPrimitive()) {
+            String value = element.getAsString();
+            JsonObject object = new JsonObject();
+            object.addProperty("item", value);
+            return CraftingHelper.getIngredient(object, ctx);
+        }
+        return CraftingHelper.getIngredient(element, ctx);
+    }
+
+    private static ItemStack readItemStack(JsonObject json, JsonContext ctx) {
+        JsonObject copy = json.deepCopy();
+        if (copy.has("id")) {
+            copy.addProperty("item", JsonUtils.getString(copy, "id"));
+            copy.remove("id");
+        }
+        return CraftingHelper.getItemStack(copy, ctx);
+    }
+
+    private static Fluid readFluid(String id) {
+        ResourceLocation location = new ResourceLocation(id);
+        Fluid fluid = FluidRegistry.getFluid(location.toString());
+        if (fluid == null) {
+            fluid = FluidRegistry.getFluid(location.getPath());
+        }
+        if (fluid == null) {
+            throw new JsonParseException("Unknown fluid: " + id);
+        }
+        return fluid;
+    }
+
+    @Override
+    public IRecipe parse(JsonContext context, JsonObject json) {
+        ReactionChamberRecipes.REACTION_CHAMBER_RECIPES.add(ReactionChamberRecipeFactory.fromJson(json, context));
+        return new NonCraftingRecipe();
+    }
+
+}

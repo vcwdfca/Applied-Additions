@@ -1,0 +1,17 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "A  ",
+    "AA ",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "ae2additions:quantum_alloy_block"
+    }
+  },
+  "result": {
+    "item": "ae2additions:quantum_alloy_stairs",
+    "count": 4
+  }
+}
