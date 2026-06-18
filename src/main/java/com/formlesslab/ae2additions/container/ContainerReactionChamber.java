@@ -6,6 +6,7 @@ import ae2.api.util.IConfigManager;
 import ae2.container.SlotSemantics;
 import ae2.container.guisync.GuiSync;
 import ae2.container.implementations.UpgradeableContainer;
+import ae2.container.interfaces.IProgressProvider;
 import com.formlesslab.ae2additions.tile.TileReactionChamber;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
@@ -13,7 +14,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.items.SlotItemHandler;
 import org.jspecify.annotations.NonNull;
 
-public class ContainerReactionChamber extends UpgradeableContainer<TileReactionChamber> {
+public class ContainerReactionChamber extends UpgradeableContainer<TileReactionChamber> implements IProgressProvider {
     @GuiSync(7)
     public int processingTime;
     @GuiSync(8)
@@ -34,20 +35,34 @@ public class ContainerReactionChamber extends UpgradeableContainer<TileReactionC
         for (int row = 0; row < 3; row++) {
             for (int column = 0; column < 3; column++) {
                 this.addSlot(new SlotItemHandler(this.getHost().getInputInventory().toItemHandler(), column + row * 3,
-                        26 + column * 18, 24 + row * 18), SlotSemantics.STORAGE);
+                        0, 0), SlotSemantics.MACHINE_INPUT);
             }
         }
-        this.addSlot(new SlotItemHandler(this.getHost().getOutputInventory().toItemHandler(), 0, 134, 42) {
+        this.addSlot(new SlotItemHandler(this.getHost().getOutputInventory().toItemHandler(), 0, 0, 0) {
             @Override
             public boolean isItemValid(@NonNull ItemStack stack) {
                 return false;
             }
-        }, SlotSemantics.STORAGE);
+        }, SlotSemantics.MACHINE_OUTPUT);
     }
 
     @Override
     protected int getPlayerInventoryTop() {
         return 102;
+    }
+
+    @Override
+    public int getCurrentProgress() {
+        return this.processingTime;
+    }
+
+    @Override
+    public int getMaxProgress() {
+        return this.getHost().getMaxProcessingTime();
+    }
+
+    public YesNo getAutoExport() {
+        return this.autoExport;
     }
 
     @Override

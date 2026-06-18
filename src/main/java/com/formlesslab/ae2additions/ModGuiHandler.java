@@ -1,6 +1,7 @@
 package com.formlesslab.ae2additions;
 
 import ae2.client.gui.style.GuiStyleManager;
+import ae2.core.gui.locator.GuiHostLocators;
 import com.formlesslab.ae2additions.client.gui.*;
 import com.formlesslab.ae2additions.container.*;
 import com.formlesslab.ae2additions.tile.*;
@@ -45,7 +46,7 @@ public class ModGuiHandler implements IGuiHandler {
         registerGui(
                 REACTION_CHAMBER,
                 TileReactionChamber.class,
-                (player, _, _, chamber) -> new ContainerReactionChamber(player.inventory, chamber));
+                (player, _, _, chamber) -> createReactionChamberContainer(player, chamber));
     }
 
     public static <T extends TileEntity> void registerGui(int id, Class<T> tileClass,
@@ -129,9 +130,15 @@ public class ModGuiHandler implements IGuiHandler {
                 REACTION_CHAMBER,
                 TileReactionChamber.class,
                 (player, _, _, chamber) -> new GuiReactionChamber(
-                        new ContainerReactionChamber(player.inventory, chamber),
+                        createReactionChamberContainer(player, chamber),
                         player.inventory,
                         GuiStyleManager.loadStyleDoc("/screens/reaction_chamber.json")));
+    }
+
+    private static ContainerReactionChamber createReactionChamberContainer(EntityPlayer player, TileReactionChamber chamber) {
+        ContainerReactionChamber container = new ContainerReactionChamber(player.inventory, chamber);
+        container.setLocator(GuiHostLocators.forTile(chamber));
+        return container;
     }
 
     @FunctionalInterface

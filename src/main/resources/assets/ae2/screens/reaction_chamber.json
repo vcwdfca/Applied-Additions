@@ -14,6 +14,27 @@
       184
     ]
   },
+  "slots": {
+    "PLAYER_INVENTORY": {
+      "left": 8,
+      "bottom": 88,
+      "grid": "BREAK_AFTER_9COLS"
+    },
+    "PLAYER_HOTBAR": {
+      "left": 8,
+      "bottom": 30,
+      "grid": "HORIZONTAL"
+    },
+    "MACHINE_INPUT": {
+      "left": 42,
+      "top": 24,
+      "grid": "BREAK_AFTER_3COLS"
+    },
+    "MACHINE_OUTPUT": {
+      "left": 118,
+      "top": 43
+    }
+  },
   "widgets": {
     "upgrades": {
       "left": 176,
@@ -21,8 +42,8 @@
       "height": 90
     },
     "progressBar": {
-      "left": 95,
-      "top": 43
+      "left": 140,
+      "top": 42
     }
   },
   "images": {
@@ -31,8 +52,8 @@
       "srcRect": [
         176,
         0,
-        24,
-        16
+        6,
+        18
       ]
     }
   },
@@ -52,25 +73,7 @@
       },
       "position": {
         "left": 8,
-        "top": 91
-      }
-    },
-    "inputFluidAmount": {
-      "text": {
-        "text": ""
-      },
-      "position": {
-        "left": 80,
-        "top": 25
-      }
-    },
-    "outputFluidAmount": {
-      "text": {
-        "text": ""
-      },
-      "position": {
-        "left": 80,
-        "top": 62
+        "top": 85
       }
     }
   }

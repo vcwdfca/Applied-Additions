@@ -14,6 +14,7 @@ public final class ModNetwork {
     public static final int ASSEMBLER_MATRIX_UPDATE = 2;
     public static final int ASSEMBLER_MATRIX_CANCEL = 3;
     public static final int ASSEMBLER_MATRIX_PATTERN_MODE = 4;
+    public static final int REACTION_CHAMBER_OUTPUT_SIDES = 5;
 
     private static boolean initialized;
 
@@ -34,6 +35,8 @@ public final class ModNetwork {
             CAssemblerMatrixCancel.class);
         registerServerbound(ASSEMBLER_MATRIX_PATTERN_MODE,
             CAssemblerMatrixPatternMode.class);
+        registerServerbound(REACTION_CHAMBER_OUTPUT_SIDES,
+                CReactionChamberOutputSides.class);
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
