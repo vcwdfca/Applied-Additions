@@ -45,7 +45,9 @@ import java.util.List;
 @Mod.EventBusSubscriber(modid = Reference.MOD_ID)
 public final class ModContent {
 
-    public static final BlockQuantumAlloyStairs QUANTUM_ALLOY_STAIRS = new BlockQuantumAlloyStairs(QUANTUM_ALLOY_BLOCK.getDefaultState());
+    static {
+        ModFluids.init();
+    }
 
     public static final Item QUANTUM_INFUSED_DUST = new Item();
 
@@ -70,13 +72,10 @@ public final class ModContent {
     public static final BlockReactionChamber REACTION_CHAMBER = new BlockReactionChamber();
     public static final ModFluids.QuantumInfusionBlock QUANTUM_INFUSION_BLOCK = new ModFluids.QuantumInfusionBlock();
     public static final BlockQuantumAlloyBlock QUANTUM_ALLOY_BLOCK = new BlockQuantumAlloyBlock();
-    public static final BlockQuantumAlloyDoubleSlab QUANTUM_ALLOY_DOUBLE_SLAB = new BlockQuantumAlloyDoubleSlab(QUANTUM_ALLOY_SLAB);
     public static final BlockQuantumAlloyWall QUANTUM_ALLOY_WALL = new BlockQuantumAlloyWall(QUANTUM_ALLOY_BLOCK);
     public static final BlockQuantumAlloySlab QUANTUM_ALLOY_SLAB = new BlockQuantumAlloySlab();
-
-    static {
-        ModFluids.init();
-    }
+    public static final BlockQuantumAlloyStairs QUANTUM_ALLOY_STAIRS = new BlockQuantumAlloyStairs(QUANTUM_ALLOY_BLOCK.getDefaultState());
+    public static final BlockQuantumAlloyDoubleSlab QUANTUM_ALLOY_DOUBLE_SLAB = new BlockQuantumAlloyDoubleSlab(QUANTUM_ALLOY_SLAB);
     public static final BlockAssemblerMatrixFrame ASSEMBLER_MATRIX_FRAME = new BlockAssemblerMatrixFrame();
     public static final BlockAssemblerMatrixWall ASSEMBLER_MATRIX_WALL = new BlockAssemblerMatrixWall();
     public static final BlockAssemblerMatrixGlass ASSEMBLER_MATRIX_GLASS = new BlockAssemblerMatrixGlass();
