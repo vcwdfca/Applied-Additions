@@ -8,6 +8,7 @@ import com.formlesslab.ae2additions.init.ModContent;
 import com.formlesslab.ae2additions.init.ModUpgrades;
 import com.formlesslab.ae2additions.network.ModNetwork;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -30,6 +31,10 @@ public class AppliedAdditions {
     public static final Logger LOGGER = LogManager.getLogger(Reference.MOD_NAME);
     @Mod.Instance(Reference.MOD_ID)
     public static AppliedAdditions INSTANCE;
+
+    static {
+        FluidRegistry.enableUniversalBucket();
+    }
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {

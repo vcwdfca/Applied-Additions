@@ -25,12 +25,12 @@ public final class ModFluids {
 
     public static void init() {
         FluidRegistry.registerFluid(QUANTUM_INFUSION);
+        FluidRegistry.addBucketForFluid(QUANTUM_INFUSION);
     }
 
     public static class QuantumInfusionBlock extends BlockFluidClassic {
         public QuantumInfusionBlock() {
             super(QUANTUM_INFUSION, Material.WATER);
-            QUANTUM_INFUSION.setBlock(this);
             this.setQuantaPerBlock(4);
             this.setLightOpacity(2);
         }
