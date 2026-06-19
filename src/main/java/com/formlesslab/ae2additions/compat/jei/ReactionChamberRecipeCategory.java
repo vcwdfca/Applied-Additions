@@ -2,6 +2,7 @@ package com.formlesslab.ae2additions.compat.jei;
 
 import com.formlesslab.ae2additions.Reference;
 import com.formlesslab.ae2additions.init.ModContent;
+import com.formlesslab.ae2additions.tile.TileReactionChamber;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.*;
 import mezz.jei.api.ingredients.IIngredients;
@@ -14,10 +15,7 @@ import net.minecraft.util.ResourceLocation;
 import org.jspecify.annotations.NonNull;
 
 public class ReactionChamberRecipeCategory implements IRecipeCategory<ReactionChamberRecipeWrapper> {
-    private static final int TANK_CAPACITY = 16000;
-    private static final ResourceLocation TEXTURE =
-            new ResourceLocation(Reference.MOD_ID, "textures/guis/reaction_chamber.png");
-
+    private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MOD_ID, "textures/guis/reaction_chamber.png");
     private final IDrawable background;
     private final IDrawable icon;
     private final IDrawableAnimated progress;
@@ -60,19 +58,19 @@ public class ReactionChamberRecipeCategory implements IRecipeCategory<ReactionCh
         IGuiItemStackGroup items = layout.getItemStacks();
         int inputCount = ingredients.getInputs(VanillaTypes.ITEM).size();
         for (int index = 0; index < inputCount; index++) {
-            int x = 37 + index % 3 * 18;
-            int y = 9 + index / 3 * 18;
+            int x = 36 + index % 3 * 18;
+            int y = 8 + index / 3 * 18;
             items.init(index, true, x, y);
         }
         if (!ingredients.getOutputs(VanillaTypes.ITEM).isEmpty()) {
-            items.init(9, false, 113, 28);
+            items.init(9, false, 112, 27);
         }
         items.set(ingredients);
 
         IGuiFluidStackGroup fluids = layout.getFluidStacks();
-        fluids.init(0, true, 4, 6, 16, 58, TANK_CAPACITY, false, null);
+        fluids.init(0, true, 4, 6, 16, 58, TileReactionChamber.TANK_CAPACITY, false, null);
         if (wrapper.hasFluidOutput()) {
-            fluids.init(1, false, 146, 6, 16, 58, TANK_CAPACITY, false, null);
+            fluids.init(1, false, 146, 6, 16, 58, TileReactionChamber.TANK_CAPACITY, false, null);
         }
         fluids.set(ingredients);
     }

@@ -4,7 +4,6 @@ import ae2.api.config.Settings;
 import ae2.api.config.YesNo;
 import ae2.client.gui.Icon;
 import ae2.client.gui.implementations.GuiUpgradeable;
-import ae2.client.gui.style.FluidBlitter;
 import ae2.client.gui.style.GuiStyle;
 import ae2.client.gui.widgets.IconButton;
 import ae2.client.gui.widgets.ProgressBar;
@@ -14,10 +13,12 @@ import com.formlesslab.ae2additions.container.ContainerReactionChamber;
 import com.formlesslab.ae2additions.network.CReactionChamberOutputSides;
 import com.formlesslab.ae2additions.network.ModNetwork;
 import com.formlesslab.ae2additions.tile.TileReactionChamber;
+import com.formlesslab.ae2additions.util.FluidStackRenderer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fluids.FluidStack;
 
 import java.awt.*;
@@ -68,10 +69,8 @@ public class GuiReactionChamber extends GuiUpgradeable<ContainerReactionChamber>
     @Override
     public void drawBG(int offsetX, int offsetY, int mouseX, int mouseY, float partialTicks) {
         super.drawBG(offsetX, offsetY, mouseX, mouseY, partialTicks);
-        this.drawFluidTank(offsetX, offsetY, this.container.getHost().getInputTank().getFluid(),
-                this.container.inputFluidAmount, INPUT_TANK);
-        this.drawFluidTank(offsetX, offsetY, this.container.getHost().getOutputTank().getFluid(),
-                this.container.outputFluidAmount, OUTPUT_TANK);
+        FluidStackRenderer.drawFluid(this.mc, offsetX + INPUT_TANK.x, offsetY + INPUT_TANK.y, INPUT_TANK.width, INPUT_TANK.height, TileReactionChamber.TANK_CAPACITY, this.container.getHost().getInputTank().getFluid());
+        FluidStackRenderer.drawFluid(this.mc, offsetX + OUTPUT_TANK.x, offsetY + OUTPUT_TANK.y, OUTPUT_TANK.width, OUTPUT_TANK.height, TileReactionChamber.TANK_CAPACITY, this.container.getHost().getOutputTank().getFluid());
     }
 
     @Override
@@ -91,20 +90,6 @@ public class GuiReactionChamber extends GuiUpgradeable<ContainerReactionChamber>
         ModNetwork.sendToServer(new CReactionChamberOutputSides());
     }
 
-    private void drawFluidTank(int offsetX, int offsetY, FluidStack fluid, int amount, Rectangle tank) {
-        if (fluid == null || amount <= 0) {
-            return;
-        }
-
-        int fillHeight = Math.max(1, tank.height * amount / TileReactionChamber.TANK_CAPACITY);
-        int drawY = tank.y + tank.height - fillHeight;
-        FluidStack renderStack = fluid.copy();
-        renderStack.amount = Math.max(1, amount);
-        FluidBlitter.create(renderStack)
-                .dest(offsetX + tank.x, offsetY + drawY, tank.width, fillHeight)
-                .blit();
-    }
-
     private boolean drawTankTooltip(int mouseX, int mouseY, Rectangle tank, FluidStack fluid, int amount) {
         int relX = mouseX - this.guiLeft;
         int relY = mouseY - this.guiTop;
@@ -112,10 +97,10 @@ public class GuiReactionChamber extends GuiUpgradeable<ContainerReactionChamber>
             return false;
         }
 
-        List<ITextComponent> tooltip = new ArrayList<>();
-        tooltip.add(new TextComponentString(fluid.getFluid().getLocalizedName(new FluidStack(fluid.getFluid(), 1))));
-        tooltip.add(new TextComponentString(amount + " / " + TileReactionChamber.TANK_CAPACITY + " mB"));
-        this.drawTooltipWithHeader(mouseX, mouseY, tooltip);
+        List<String> tooltip = new ArrayList<>();
+        tooltip.add(fluid.getFluid().getLocalizedName(new FluidStack(fluid.getFluid(), 1)));
+        tooltip.add(TextFormatting.GRAY + "" + amount + " / " + TileReactionChamber.TANK_CAPACITY + " mB");
+        this.drawTooltipLines(mouseX, mouseY, tooltip);
         return true;
     }
 }

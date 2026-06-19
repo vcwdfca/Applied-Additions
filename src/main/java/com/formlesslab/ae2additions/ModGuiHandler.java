@@ -125,7 +125,7 @@ public class ModGuiHandler implements IGuiHandler {
             (player, _, _, matrix) -> new GuiAssemblerMatrix<>(
                 new ContainerAssemblerMatrix(player.inventory, matrix),
                 player.inventory,
-                GuiAssemblerMatrix.loadStyle()));
+                    GuiStyleManager.loadStyleDoc("/screens/assembler_matrix.json")));
         registerClientGui(
                 REACTION_CHAMBER,
                 TileReactionChamber.class,

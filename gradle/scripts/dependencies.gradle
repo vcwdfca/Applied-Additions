@@ -20,6 +20,10 @@ repositories {
         name = "GeckoLib"
         url = uri("https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/")
     }
+    maven {
+        name = "Jitpack"
+        url = uri("https://jitpack.io")
+    }
     mavenCentral()
     mavenLocal() // Must be last for caching to work
 }
@@ -60,7 +64,7 @@ dependencies {
     //     transitive = false
     // }
 
-    modImplementation name: 'AppliedEnergistics2-Supergiant', version: 'v1.0.2+b38e9e54f', classifier: 'dev'
+    modImplementation "com.github.FormlessDragon:Applied-Energistics-2-Supergiant:v1.0.5:dev"
     modImplementation "curse.maven:had-enough-items-557549:7938914"
     modCompileOnly 'curse.maven:mouse-tweaks-unofficial-461660:5876158'
     //modImplementation 'software.bernie.geckolib:geckolib-forge-1.12.2:3.0.31'

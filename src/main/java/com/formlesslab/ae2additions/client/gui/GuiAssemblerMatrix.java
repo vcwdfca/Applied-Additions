@@ -6,7 +6,10 @@ import ae2.api.stacks.GenericStack;
 import ae2.client.Point;
 import ae2.client.gui.AEBaseGui;
 import ae2.client.gui.Icon;
-import ae2.client.gui.style.*;
+import ae2.client.gui.style.Blitter;
+import ae2.client.gui.style.GuiStyle;
+import ae2.client.gui.style.PaletteColor;
+import ae2.client.gui.style.WidgetStyle;
 import ae2.client.gui.widgets.AETextField;
 import ae2.client.gui.widgets.IconButton;
 import ae2.client.gui.widgets.Scrollbar;
@@ -50,7 +53,7 @@ public class GuiAssemblerMatrix<T extends AEBaseContainer & AssemblerMatrixMenu>
     private boolean hidePatternProviders;
 
     public GuiAssemblerMatrix(T container, InventoryPlayer playerInventory, GuiStyle style) {
-        super(container, playerInventory, style == null ? loadStyle() : style);
+        super(container, playerInventory, style);
         this.scrollbar = this.widgets.addScrollBar("scrollbar", Scrollbar.BIG);
         this.searchField = this.widgets.addTextField("search");
         this.searchField.setResponder(_ -> this.refreshList());
@@ -65,10 +68,6 @@ public class GuiAssemblerMatrix<T extends AEBaseContainer & AssemblerMatrixMenu>
         this.patternShowButton = new MatrixIconButton(this::patternModeIcon, this::togglePatternMode);
         this.patternShowButton.setMessage(GuiText.PatternAccessTerminalHint.text());
         this.addToLeftToolbar(this.patternShowButton);
-    }
-
-    public static GuiStyle loadStyle() {
-        return GuiStyleManager.loadStyleDoc("/screens/assembler_matrix.json");
     }
 
     @Override

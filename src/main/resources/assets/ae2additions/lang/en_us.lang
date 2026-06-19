@@ -135,3 +135,4 @@ fluid.quantum_infusion=Quantum Infusion
 fluid.ae2additions.quantum_infusion=Quantum Infusion
 gui.ae2additions.reaction_chamber=Reaction Chamber
 gui.ae2additions.jei.energy=Used Power: %dk FE
+itemGroup.ae2additions=AE2 Additions

@@ -82,7 +82,7 @@ public final class ModContent {
         QUANTUM_INFUSED_DUST = new Item();
         CREATIVE_TAB = new CreativeTabs("ae2additions") {
             public ItemStack createIcon() {
-                return new ItemStack(ModContent.WIRELESS_CONNECTOR);
+                return new ItemStack(ModContent.WIRELESS_TOOL);
             }
         };
         WIRELESS_CONNECTOR = new BlockWirelessConnector();
@@ -109,30 +109,34 @@ public final class ModContent {
         ASSEMBLER_MATRIX_PATTERN = new BlockAssemblerMatrixPattern();
         ASSEMBLER_MATRIX_CRAFTER = new BlockAssemblerMatrixCrafter();
         ASSEMBLER_MATRIX_SPEED = new BlockAssemblerMatrixSpeed();
+
         BLOCKS = new ArrayList<>();
         ITEMS = new ArrayList<>();
         MODELS = new ArrayList<>();
         TILE_ENTITIES = new ArrayList<>();
-        registerBlock(WIRELESS_CONNECTOR, "wireless_connect");
-        registerBlock(WIRELESS_HUB, "wireless_hub");
+
         registerItem(WIRELESS_TOOL, "wireless_tool");
         registerItem(WIRELESS_CONNECTOR_UPGRADE, "wireless_connector_upgrade");
-        registerItem(QUANTUM_INFUSED_DUST, "quantum_infused_dust");
-        registerItem(SHATTERED_SINGULARITY, "shattered_singularity");
         registerItem(QUANTUM_PROCESSOR_PRESS, "quantum_processor_press");
         registerItem(PRINTED_QUANTUM_PROCESSOR, "printed_quantum_processor");
-        registerItem(QUANTUM_ALLOY, "quantum_alloy");
-        registerItem(QUANTUM_ALLOY_PLATE, "quantum_alloy_plate");
         registerItem(QUANTUM_PROCESSOR, "quantum_processor");
         registerItem(QUANTUM_STORAGE_COMPONENT, "quantum_storage_component");
-        registerBlock(REACTION_CHAMBER, "reaction_chamber");
+        registerItem(QUANTUM_INFUSED_DUST, "quantum_infused_dust");
+        registerItem(SHATTERED_SINGULARITY, "shattered_singularity");
+        registerItem(QUANTUM_ALLOY, "quantum_alloy");
+        registerItem(QUANTUM_ALLOY_PLATE, "quantum_alloy_plate");
         registerBlockNoItem(QUANTUM_INFUSION_BLOCK, "quantum_infusion_block");
-        registerBlock(QUANTUM_ALLOY_BLOCK, "quantum_alloy_block");
-        registerBlock(QUANTUM_ALLOY_STAIRS, "quantum_alloy_stairs");
-        registerBlock(QUANTUM_ALLOY_WALL, "quantum_alloy_wall");
         registerBlock(QUANTUM_ALLOY_SLAB, "quantum_alloy_slab");
         setupBlock(QUANTUM_ALLOY_DOUBLE_SLAB, "quantum_alloy_double_slab");
+        registerBlock(QUANTUM_ALLOY_STAIRS, "quantum_alloy_stairs");
+        registerBlock(QUANTUM_ALLOY_WALL, "quantum_alloy_wall");
+        registerBlock(QUANTUM_ALLOY_BLOCK, "quantum_alloy_block");
+
         BLOCKS.add(QUANTUM_ALLOY_DOUBLE_SLAB);
+
+        registerBlock(REACTION_CHAMBER, "reaction_chamber");
+        registerBlock(WIRELESS_CONNECTOR, "wireless_connect");
+        registerBlock(WIRELESS_HUB, "wireless_hub");
 
         for (AAECraftingUnitType type : AAECraftingUnitType.values()) {
             registerBlock(QuantumContent.getBlock(type), type.getRegistryName());
@@ -144,6 +148,7 @@ public final class ModContent {
         registerBlock(ASSEMBLER_MATRIX_PATTERN, "assembler_matrix_pattern");
         registerBlock(ASSEMBLER_MATRIX_CRAFTER, "assembler_matrix_crafter");
         registerBlock(ASSEMBLER_MATRIX_SPEED, "assembler_matrix_speed");
+
         registerTileEntity(TileWirelessConnector.class, "wireless_connect");
         registerTileEntity(TileWirelessHub.class, "wireless_hub");
         registerTileEntity(TileReactionChamber.class, "reaction_chamber");
